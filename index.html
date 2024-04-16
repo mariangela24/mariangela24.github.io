@@ -17,6 +17,15 @@ th,td {
 <body>
 <h2>video games</h2>
 <p>Επιλέξτε από την λίστα</p>
+<form action=""> 
+	<select id="order" onchange="loadXMLDoc()">
+		<option value="">Ταξινόμηση κατά</option>
+		<option value="NAME">Ονομασία</option>
+		<option value="YEAR">Έτος</option>
+		<option value="CREATOR">Δημιουργός</option>
+		<option value="PRICE">Τιμή</option>
+	</select>
+</form>
 <div id="gamesList"></div>
 
 <script>
