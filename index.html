@@ -18,17 +18,24 @@ th,td {
 <h2>video games</h2>
 <p>Επιλέξτε από την λίστα</p>
 <form action=""> 
-	<select id="order" onchange="loadXMLDoc()">
-		<option value="">Ταξινόμηση κατά</option>
-		<option value="NAME">Ονομασία</option>
-		<option value="YEAR">Έτος</option>
-		<option value="CREATOR">Δημιουργός</option>
-		<option value="PRICE">Τιμή</option>
-	</select>
+    <select id="order" onchange="loadXMLDoc()">
+        <option value="">Ταξινόμηση κατά</option>
+        <option value="NAME">Ονομασία</option>
+        <option value="YEAR">Έτος</option>
+        <option value="CREATOR">Δημιουργός</option>
+        <option value="PRICE">Τιμή</option>
+    </select>
 </form>
 <div id="gamesList"></div>
 
 <script>
+
+// Συνάρτηση που μετατρέπει ενα string μορφής XML σε XML
+function toXml(xmlStr) {
+    xml = new window.DOMParser().parseFromString(xmlStr, "text/xml");
+    return xml;
+}
+
 // Ορίζουμε τη συνάρτηση για να φορτώσουμε τα δεδομένα XML
 function loadXMLDoc() {
     var xhttp;
@@ -40,23 +47,43 @@ function loadXMLDoc() {
     }
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            displayGames(this.responseXML);
+            displayGames(toXml(this.response));
         }
     };
-    xhttp.open("GET", "videogames.xml", true);
+    xhttp.open("GET", "https://gistcdn.githack.com/DicRecharger/24f13d03e65fd3ec5cea8898c769a7d0/raw/fb4813c7791e9ba5f796b0d9136341da17671a28/videogames.xml", true);
     xhttp.send();
+}
+
+// Ταξινόμηση παιχνιδιών
+function sortGames(gamesList) {
+    function compare(a, b) {
+        var order_value = document.getElementById("order");
+        var user_order = order_value.value;
+        if (a[user_order] > b[user_order]) {
+            return 1; 
+        } else {
+            return -1;    
+        }
+    }
+
+    return gamesList.sort(compare);
 }
 
 // Εμφάνιση των παιχνιδιών στη σελίδα
 function displayGames(xml) {
     var games = xml.getElementsByTagName("GAME");
-    var output = "<ul>";
+    var gamesList = [];
     for (var i = 0; i < games.length; i++) {
-        var creator = games[i].getElementsByTagName("CREATOR")[0].childNodes[0].nodeValue;
-        var name = games[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue;
-        var year = games[i].getElementsByTagName("YEAR")[0].childNodes[0].nodeValue;
-        var price = games[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue;
-        output += "<li>" + name + " by " + creator + " (" + year + ") - Price: $" + price + "</li>";
+        gamesList[i] = {};
+        gamesList[i].CREATOR = games[i].getElementsByTagName("CREATOR")[0].childNodes[0].nodeValue;
+        gamesList[i].NAME = games[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue;
+        gamesList[i].YEAR = games[i].getElementsByTagName("YEAR")[0].childNodes[0].nodeValue;
+        gamesList[i].PRICE = games[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue;
+    }
+    gamesList = sortGames(gamesList);
+    output = "<ul>";
+    for(var i = 0; i < games.length; i++) {
+        output += "<li>" + gamesList[i].NAME + " by " + gamesList[i].CREATOR + " (" + gamesList[i].YEAR + ") - Price: $" + gamesList[i].PRICE + "</li>";
     }
     output += "</ul>";
     document.getElementById("gamesList").innerHTML = output;
