@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
+<head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+
 <style>
 table,th,td {
   border : 1px solid black;
@@ -10,10 +13,10 @@ th,td {
   padding: 5px;
 }
 </style>
-<body onload="loadXMLDoc()">
+</head>
+<body>
 <h2>video games</h2>
 <p>Επιλέξτε από την λίστα</p>
-
 <form action=""> 
 	<select id="order" onchange="loadXMLDoc()">
 		<option value="">Ταξινόμηση κατά</option>
@@ -23,55 +26,40 @@ th,td {
 		<option value="PRICE">Τιμή</option>
 	</select>
 </form>
-<br>
-<br><br>
-<table id="demo"></table>
+<div id="gamesList"></div>
 
 <script>
+// Ορίζουμε τη συνάρτηση για να φορτώσουμε τα δεδομένα XML
 function loadXMLDoc() {
-	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			myFunction(this);
-		}
-	};
-	xmlhttp.open("GET", "videogames.xml", true);
-	xmlhttp.send();
+    var xhttp;
+    if (window.XMLHttpRequest) {
+        xhttp = new XMLHttpRequest();
+    } else {
+        // Για παλαιότερους browsers
+        xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            displayGames(this.responseXML);
+        }
+    };
+    xhttp.open("GET", "videogames.xml", true);
+    xhttp.send();
 }
 
-function myFunction(xml) {
-	var xmlDoc = xml.responseXML;
-	var table="<tr><th>Ονομασία</th><th>Έτος</th><th>Δημιουργός</th><th>Τιμή</th></tr>";  
-	var xmlgame = xmlDoc.getElementsByTagName("GAMES");
-    game = [];
-    for(var i = 0; i < xmlgame.length; i++){
-        xmlgames = xmlgame[i];
-        games[i] = {};
-        games[i].NAME = xmlgames.getElementsByTagName("NAME")[0].childNodes[0].nodeValue;
-        games[i].YEAR = xmlgames.getElementsByTagName("YEAR")[0].childNodes[0].nodeValue;
-        games[i].CREATOR = xmlgames.getElementsByTagName("CREATOR")[0].childNodes[0].nodeValue;
-		games[i].PRICE = xmlgames.getElementsByTagName("PRICE")[0].childNodes[0].nodeValue;
+// Εμφάνιση των παιχνιδιών στη σελίδα
+function displayGames(xml) {
+    var games = xml.getElementsByTagName("GAME");
+    var output = "<ul>";
+    for (var i = 0; i < games.length; i++) {
+        var creator = games[i].getElementsByTagName("CREATOR")[0].childNodes[0].nodeValue;
+        var name = games[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue;
+        var year = games[i].getElementsByTagName("YEAR")[0].childNodes[0].nodeValue;
+        var price = games[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue;
+        output += "<li>" + name + " by " + creator + " (" + year + ") - Price: $" + price + "</li>";
     }
-
-	function compare(a, b) {
-		var order_value = document.getElementById("order");
-		var user_order = order_value.value;
-		let comparison = 0;
-		if (a[user_order] > b[user_order]) {
-			comparison = 1;	
-		} else if (a[user_order] < b[user_order]) {
-			comparison = -1;
-		}
-		return comparison;
-  
-} 	
-	games.sort(compare); //sort array  
-	for (var i = 0; i < games.length; i += 1) {
-		game = games[i];
-		table += "<tr><td>"+ game.NAME + '</td><td>'+ game.YEAR +'</td><td>'+ game.CREATOR +'</td><td>'+ game.PRICE +'</td></tr>';
-	}   
-	console.log(games); //display in console (see inspect element of Browser)  
-	document.getElementById("demo").innerHTML = table;  
+    output += "</ul>";
+    document.getElementById("gamesList").innerHTML = output;
 }
 </script>
 
