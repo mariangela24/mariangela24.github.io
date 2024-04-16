@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="styles.css">
+
+<style>
+table,th,td {
+  border : 1px solid black;
+  border-collapse: collapse;
+}
+th,td {
+  padding: 5px;
+}
+</style>
+</head>
+<body>
+<h2>video games</h2>
+<p>Επιλέξτε από την λίστα</p>
+<div id="gamesList"></div>
+
+<script>
+// Ορίζουμε τη συνάρτηση για να φορτώσουμε τα δεδομένα XML
+function loadXMLDoc() {
+    var xhttp;
+    if (window.XMLHttpRequest) {
+        xhttp = new XMLHttpRequest();
+    } else {
+        // Για παλαιότερους browsers
+        xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            displayGames(this.responseXML);
+        }
+    };
+    xhttp.open("GET", "videogames.xml", true);
+    xhttp.send();
+}
+
+// Εμφάνιση των παιχνιδιών στη σελίδα
+function displayGames(xml) {
+    var games = xml.getElementsByTagName("GAME");
+    var output = "<ul>";
+    for (var i = 0; i < games.length; i++) {
+        var creator = games[i].getElementsByTagName("CREATOR")[0].childNodes[0].nodeValue;
+        var name = games[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue;
+        var year = games[i].getElementsByTagName("YEAR")[0].childNodes[0].nodeValue;
+        var price = games[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue;
+        output += "<li>" + name + " by " + creator + " (" + year + ") - Price: $" + price + "</li>";
+    }
+    output += "</ul>";
+    document.getElementById("gamesList").innerHTML = output;
+}
+</script>
+
+</body>
+</html>

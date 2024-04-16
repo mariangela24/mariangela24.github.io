@@ -1,0 +1,32 @@
+<GAMES>
+    <GAMES>
+        <CREATOR>Shigeru Miyamoto</CREATOR>
+        <NAME>Super Mario Bros.</NAME>
+        <YEAR>1985</YEAR>
+        <PRICE>30</AVERAGE_PRICE>
+    </GAMES>
+    <GAMES>
+        <CREATOR>Hideo Kojima</CREATOR>
+        <NAME>Metal Gear</NAME>
+        <YEAR>1987</YEAR>
+        <PRICE>40</PRICE>
+    </GAMES>
+    <GAMES>
+        <CREATOR>John Romero</CREATOR>
+        <NAME>Doom</NAME>
+        <YEAR>1993</YEAR>
+        <PRICE>35</PRICE>
+    </GAMES>
+    <GAMES>
+        <CREATOR>Shinji Mikami</CREATOR>
+        <NAME>Resident Evil</NAME>
+        <YEAR>1996</YEAR>
+        <PRICE>45</PRICE>
+    </GAMES>
+    <GAMES>
+        <CREATOR>Gabe Newell</CREATOR>
+        <NAME>Half-Life</NAME>
+        <YEAR>1998</YEAR>
+        <PRICE>50</PRICE>
+    </GAMES>
+</GAMES>
