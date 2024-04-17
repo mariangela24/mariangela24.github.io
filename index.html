@@ -69,6 +69,23 @@ function sortGames(gamesList) {
     return gamesList.sort(compare);
 }
 
+function compare(a, b) {
+    var order_value = document.getElementById("order");
+    var user_order = order_value.value;
+    if (user_order === "YEAR") {
+        // Convert years to numbers and compare in descending order
+        return parseInt(b[user_order]) - parseInt(a[user_order]);
+    } else {
+        // For other fields, compare as strings
+        if (a[user_order] > b[user_order]) {
+            return 1; 
+        } else {
+            return -1;    
+        }
+    }
+}
+
+
 // Εμφάνιση των παιχνιδιών στη σελίδα
 function displayGames(xml) {
     var games = xml.getElementsByTagName("GAME");
