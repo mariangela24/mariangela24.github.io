@@ -14,9 +14,16 @@ th,td {
 }
 </style>
 </head>
+<body style="background-color:#C3EFFC;">
+<h2 style="text-align: center;">Πανεπιστήμιο Αιγαίου</h2>
+<h2 style="text-align: center;">Σχολή Κοινωνικών Επιστημών</h2>
+<h2 style="text-align: center;">Τμήμα Πολιτισμικής Τεχνολογίας και Επικοινωνίας</h2>
+<h3 style="text-align: center;">Ο ιστότοπος πραγματοποιήθηκε στα πλαίσια του μαθήματος Προγραμματισμός στο Παγκόσμιο Ιστό</h3>
+<h3 style="text-align: center;">Διαχείριση Δεδομένων στον Ιστό με χρήση JavaScript και XML</h3>
+<h3 style="text-align: center;">Ονοματεπώνυμο : Μιχαλοπούλου Αγγελική Μαρία</h3>
 <body>
-<h2>video games</h2>
-<p>Επιλέξτε από την λίστα</p>
+<h4>Παρακάτω παρουσιάζεται η λίστα των πρώτων διάσημων βιντεοπαιχνιδιών</h4>
+<p>Επιλέξτε τον τρόπο ταξινόμησης</p>
 <form action=""> 
     <select id="order" onchange="loadXMLDoc()">
         <option value="">Ταξινόμηση κατά</option>
@@ -42,7 +49,7 @@ function loadXMLDoc() {
     if (window.XMLHttpRequest) {
         xhttp = new XMLHttpRequest();
     } else {
-        // Για παλαιότερους browsers
+// Για παλαιότερους browsers
         xhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
     xhttp.onreadystatechange = function() {
@@ -50,7 +57,7 @@ function loadXMLDoc() {
             displayGames(toXml(this.response));
         }
     };
-    xhttp.open("GET", "videogames.xml", true);
+    xhttp.open("GET", "https://raw.githubusercontent.com/mariangela24/mariangela24.github.io/main/videogames.xml", true);
     xhttp.send();
 }
 
@@ -60,10 +67,10 @@ function sortGames(gamesList) {
         var order_value = document.getElementById("order");
         var user_order = order_value.value;
         if (user_order === "YEAR") {
-        // Convert years to numbers and compare in descending order
+// Μετάτρεψε τα έτη σε αριθμούς και σύγκρινέ τα σε φθίνουσα σειρά.
           return parseInt(b[user_order]) - parseInt(a[user_order]);
         } else {
-        // For other fields, compare as strings
+// Για τα υπόλοιπα πεδία, σύγκρινέ τα ως συμβολοσειρές.
             if (a[user_order] > b[user_order]) {
                 return 1; 
             } else {
