@@ -1,6 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: Calibri;
+    background-color: #C3EFFC;
 }
 
 ul {
@@ -16,12 +16,6 @@ li {
     margin-bottom: 10px;
 }
 
-/* Στυλ για την επικεφαλίδα */
-h2 {
-    color: #333;
-}
-
-/* Στυλ για την λίστα των παιχνιδιών */
 .games-list {
     margin-top: 20px;
 }
@@ -34,7 +28,6 @@ h2 {
     margin-bottom: 5px;
 }
 
-/* Στυλ για τα διάφορα στοιχεία του παιχνιδιού */
 .games-list li h3 {
     margin-top: 0;
     margin-bottom: 5px;
@@ -44,6 +37,11 @@ h2 {
     margin-top: 0;
     margin-bottom: 5px;
     color: #666;
+}
+
+.games-list li span {
+    font-weight: bold;
+    color: #333;
 }
 
 .games-list li span {
